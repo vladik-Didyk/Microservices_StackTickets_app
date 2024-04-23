@@ -1,5 +1,5 @@
+# Ticketing Project
 
-Ticketing Project
 <div align="center">
   <code><img width="100" src="https://user-images.githubusercontent.com/25181517/183890598-19a0ac2d-e88a-4005-a8df-1ee36782fde1.png" alt="TypeScript" title="TypeScript"/></code>
   <code><img width="100" src="https://user-images.githubusercontent.com/25181517/183859966-a3462d8d-1bc7-4880-b353-e2cbed900ed6.png" alt="Express" title="Express"/></code>
@@ -13,99 +13,120 @@ Ticketing Project
 <code><img width="120" src="https://user-images.githubusercontent.com/25181517/183868728-b2e11072-00a5-47e2-8a4e-4ebbb2b8c554.png" alt="CI/CD" title="CI/CD"/></code>
 <img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*ebK75QCh_mXBRx6VQjcebg.png" alt="Logo" data-canonical-src="https://nats.io/img/logo.png" style="width: 30%">
 </div>
-Status
-tests-auth
-tests-payments
 
-📑 Table of Contents
-📝 Introduction
-📘 Description
-🧩 Features
-🚀 Environment Variables
-🏗️ Architecture
-⏹️ Development
-🎬 Screenshots
-📘 Introduction <a name="introduction"></a>
-This web application enables users to book and buy tickets for various events.
+## Status
 
-📘 Description <a name="description"></a>
-The Ticketing App Microservices Backend, built on Node.js and Typescript, operates as a Backend (with a simple Next.js front-end designed for demonstration and testing) utilizing microservices architecture to deliver a scalable and robust user interface. It consists of multiple microservices, each tasked with a distinct function, including:
+![tests-auth](https://github.com/sRayen/Ticketing-Microservices/workflows/tests-auth/badge.svg)
+![tests-payments](https://github.com/sRayen/Ticketing-Microservices/workflows/tests-payments/badge.svg)
 
-➡️ Auth: Manages user authentication and authorization.
-➡️ Expiration: Utilizes the Bull package to assign expiration times for tickets and introduces a 15-minute delay following order placement.
-➡️ Common: A shared npm package that offers event interfaces.
-➡️ Order: Manages the creation and cancellation of orders, and triggers events to inform other services.
-➡️ Payment: Processes payments through Stripe.
-➡️ Ticket: Oversees ticket issuance and updates.
-⭐ The backend employs NATS Streaming Server for service-to-service communication, a light messaging service based on NATS.
+### 📑 Table of Contents
+- [📝 Introduction](#introduction)
+- [📘 Description](#description)
+- [🧩 Features](#features)
+- [🚀 Environment Variables](#environment-varaibles)
+- [🏗️ Architecture](#architecture)
+- [⏹️ Development](#development)
+- [🎬 Screenshots](#screenshots)
 
-🌟 The application’s codebase is organized and maintainable, made possible through the use of Typescript which incorporates interfaces, classes, and generators.
+## 📘 Introduction <a name="introduction"></a>
 
-🌟 ☸ Kubernetes facilitates the deployment of each service along with its database, and also manages the NATS Streaming service setup and ingress configuration.
+ **This is a web application that allows users to reserve and purchase tickets to events.**
 
-💥 This backend provides a dependable and effective solution for ticket application requirements, incorporating Mongoose version numbers to address concurrency challenges among services.
+## 📘 Description <a name="description"></a>
 
-Features 🧩 <a name="features"></a>
-This application offers capabilities such as:
 
-✔ User registration and login
-✔ Listing a ticket for sale (seller)
-✔ Adding a ticket to the cart (buyer) and marking it 'reserved' for 15 min
-✔ Creating an Order
-✔ Completing purchase and payment for an order
-Environment Variables 🔑 <a name="environment-varaibles"></a>
-JWT_KEY : string, JSON web token secret <string> (Example: JwtKey)
+The Ticketing App Microservices Backend is a Node.js Typescript-based **Backend** (a very simple Next.js front-end is made just for demonstration and testing purposes) that leverages **microservices architecture** to provide a scalable and resilient user experience. It is composed of several microservices, each with a specific responsibility, including:
 
-STRIPE_KEY: your stripe API key to facilitate payments
+* ➡️ **Auth**: Handles authentication and authorization.
+* ➡️ **Expiration**: Uses the Bull package to set expiration times for tickets and delay events by 15 minutes after order creation.
+* ➡️ **Common**: A shared npm package that provides interfaces for events.
+* ➡️ **Order**: Handles order creation and cancellation, and fires events to notify other services.
+* ➡️ **Payment**: Handles payment processing using Stripe.
+* ➡️ **Ticket**: Handles ticket creation and updates.
+  
+⭐ To facilitate communication between services, the Ticket App Microservices Backend uses **NATS Streaming Server**, a lightweight messaging service built on top of NATS.
 
-Development <a name="development"></a>
-For managing Docker containers within the Kubernetes cluster and optimizing the development process, the project utilizes Skaffold.
+🌟 The code is written in **Typescript**, which uses interfaces, classes, and generators to ensure a well-organized and maintainable codebase.
 
-Ensure Docker, Kubernetes, and Skaffold are installed locally to run the app in a development setting.
+🌟 ☸ **Kubernetes** is used to create deployments for each service and its database, as well as to build ingress and set up the NATS Streaming service.
 
-Before initiating the app, set the environment variables within the Kubernetes cluster using the following commands:
+💥 The Ticketing App Microservices Backend is a reliable and efficient solution for ticket app needs. It leverages **Mongoose version numbers** to resolve **concurrency issues** between **services**.
 
-bash
-Copy code
+## Features 🧩 <a name="features"></a>
+
+This app has the following functionalities:
+
+* ✔ Sign in/up
+* ✔ Add a ticket to the marketplace (seller)
+* ✔ Add ticket to cart (buyer) and mark it 'reserved' for 15 min
+* ✔ Make an Order
+* ✔ Checkout & pay for order
+
+## Environment Variables 🔑  <a name="environment-varaibles"></a>
+
+ `JWT_KEY` : string, JSON web token secret <string> (Example: JwtKey)
+
+`STRIPE_KEY`: your stripe API key to handle the payment 
+
+## Development	<a name="development"></a>
+
+To manage all the Docker containers inside the Kubernetes cluster and simplify development workflow the project uses Skaffold.
+
+To run the app in development environment, make sure Docker, Kubernetes and Skaffold are installed on your local machine.
+
+Before running the app environment variables inside the Kubernetes cluster must be set. Execute commands below to set these environment variables:
+
+```bash
 # kubectl create secret generic stripe-secret --from-literal=STRIPE_KEY=<your_stripe_key>
 
 # kubectl create secret generic jwt-secret --from-literal=JWT_KEY=<your_jwt_key>
-Make sure to make the ingress-nginx-controller accessible by:
+```
 
-bash
-Copy code
+Be sure to expose the ingress-nginx-controller with:
+
+```bash
 # kubectl expose deployment ingress-nginx-contoller --target-port=80 --type=NodePort -n kube-system
-👉 Initiate the app with skaffold dev.
+```
 
-🔍 Skaffold manages the workflow for building, pushing, and deploying your application, allowing you to concentrate on coding.
+👉 Start the app with `skaffold dev`.
 
-Architecture 🏗️🔨 <a name="architecture"></a>
-architecture
+🔍 [Skaffold ](https://skaffold.dev/) handles the workflow for **building**, **pushing** and **deploying** your application, allowing you to focus on what matters most: **writing code**.
 
-Screenshots 🎬 <a name="screenshots"></a>
-<ins>Deployments</ins>:
-deployments
 
-<ins>SignUp</ins>:
-SignUp
+##  Architecture 🏗️🔨 <a name="architecture"></a>
 
-<ins>Tickets</ins>:
-Tickets
+![architecture](https://github.com/SRayen/Ticketing-Microservices/assets/13922445/702adccc-3fb4-4410-acd1-957d639ef7f4)
 
-<ins>Purchase Ticket</ins>:
-Purchase Ticket
+##  Screenshots 🎬 <a name="screenshots"></a>
 
-<ins>Orders</ins>:
-orders
+### <ins>Deployments</ins>:
+![deployments](https://github.com/SRayen/Ticketing-Microservices/assets/13922445/e8b5fb9e-c042-4a1b-ad27-354cd2e77792)
 
-<ins>Microservices logs</ins>:
-logs
+### <ins>SignUp</ins>:
+![SignUp](https://github.com/SRayen/Ticketing-Microservices/assets/13922445/24e87bba-7af6-49da-bcfd-84c78c3cdf25)
 
-<ins>Stripe Payments</ins>:
-stripe_payments
+### <ins>Tickets</ins>:
+![Tickets](https://github.com/SRayen/Ticketing-Microservices/assets/13922445/3b187359-8ad3-4b51-8786-c83745abc58a)
 
-Dedication
-📌 My heartfelt thanks to Stephen Grider, the instructor of the Microservices with Node JS and React course on Udemy.
-📌 Stephen's profound knowledge and steady mentorship were instrumental in realizing this project.
-📌 This project stands as a testament to my growth as a Software Engineer and the priceless insights gained through this remarkable educational experience.
-📌 I am excited to present this project to you, celebrating Stephen Grider's excellent teaching and mentorship.
+### <ins>Purchase Ticket</ins>:
+![Purchase Ticket](https://github.com/SRayen/Ticketing-Microservices/assets/13922445/1ebc80eb-661e-429f-be4b-b4bfaa881f86)
+
+### <ins>Orders</ins>:
+![orders](https://github.com/SRayen/Ticketing-Microservices/assets/13922445/a289bd53-fc73-4ea5-b71f-5fe10bb8ae93)
+
+### <ins>Microservices logs</ins>:
+![logs](https://github.com/SRayen/Ticketing-Microservices/assets/13922445/3df3fc8e-d2d5-4d58-8ec6-eddb7ff97854)
+
+### <ins>Stripe Payments</ins>:
+![stripe_payments](https://github.com/SRayen/Ticketing-Microservices/assets/13922445/533b9e7c-ebd5-4c09-94f7-72f650dd04b5)
+
+## Dedication
+
+* 📌 I would like to express my deepest gratitude to [Stephen Grider](https://www.linkedin.com/in/stephengrider/) , the creator of the  [Microservices with Node JS and React](https://www.udemy.com/course/microservices-with-node-js-and-react/)  course on Udemy.
+* 📌 It is thanks to Stephen's exceptional expertise and unwavering guidance that this project came to fruition and under his tutelage.
+* 📌 This project is a testament to my growth as a Software Engineer and the invaluable lessons I have learned on this incredible learning journey.
+* 📌 I am thrilled to share this project with you, and I hope it serves as a tribute to Stephen Grider's incredible teaching and mentorship.
+
+
+
+
